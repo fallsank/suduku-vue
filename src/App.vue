@@ -1,13 +1,26 @@
 <template>
   <div id="app">
-    11112
+    <s-header></s-header>
+    <grid></grid>
+    <dashboard></dashboard>
+    <popup-num></popup-num>
   </div>
 </template>
 
 <script>
+import SHeader from "./components/SHeader";
+import Grid from "./components/Grid";
+import Dashboard from "./components/Dashboard";
+import PopupNum from "./components/PopupNum";
+
 export default {
   name: "app",
-  components: {}
+  components: {
+    SHeader,
+    Grid,
+    Dashboard,
+    PopupNum
+  }
 };
 </script>
 
