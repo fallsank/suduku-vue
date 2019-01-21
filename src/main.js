@@ -1,4 +1,5 @@
 import "./assets/js/flexible.js";
+import "./assets/css/reset.css";
 import Vue from "vue";
 import App from "./App.vue";
 
