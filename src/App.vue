@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <s-header></s-header>
-    <grid></grid>
+    <sudoku-grid></sudoku-grid>
     <dashboard></dashboard>
     <popup-num></popup-num>
   </div>
@@ -9,7 +9,7 @@
 
 <script>
 import SHeader from "./components/SHeader";
-import Grid from "./components/Grid";
+import SudokuGrid from "./components/SudokuGrid";
 import Dashboard from "./components/Dashboard";
 import PopupNum from "./components/PopupNum";
 
@@ -17,7 +17,7 @@ export default {
   name: "app",
   components: {
     SHeader,
-    Grid,
+    SudokuGrid,
     Dashboard,
     PopupNum
   }
@@ -26,7 +26,7 @@ export default {
 
 <style lang="scss">
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "微软雅黑", "consolas", "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
