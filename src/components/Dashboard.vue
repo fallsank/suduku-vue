@@ -1,9 +1,13 @@
 <template>
   <div class="dashboard-wrapper">
-    <button class="dash-button">新游戏</button>
+    <button class="dash-button" title="nnnn" hello="nihao">新游戏</button>
     <button class="dash-button">清空</button>
   </div>
 </template>
+
+<script>
+export default {};
+</script>
 
 <style lang="scss">
 .dashboard-wrapper {
