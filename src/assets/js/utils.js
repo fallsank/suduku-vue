@@ -1,8 +1,5 @@
-const matrix = {
-  /**
-   * 打乱数组算法
-   * @param {*} arr 数组
-   */
+export default {
+  // 打乱数组算法
   shuffle(arr) {
     for (let index = 0; index < arr.length - 1; index++) {
       const exchangeIndex =
@@ -11,9 +8,10 @@ const matrix = {
       [arr[index], arr[exchangeIndex]] = [arr[exchangeIndex], arr[index]];
     }
     return arr;
+  },
+  // 检测输入数字是否合法
+  checkSudokuNum(matrix, n, rowIndex, colIndex) {
+    console.log(matrix, n, rowIndex, colIndex);
+    return true;
   }
-};
-
-export default {
-  matrix
 };

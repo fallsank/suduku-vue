@@ -28,7 +28,8 @@ export default {
       height: colHeight + "px",
       lineHeight: colHeight + "px"
     };
-  }
+  },
+  created() {}
 };
 </script>
 
