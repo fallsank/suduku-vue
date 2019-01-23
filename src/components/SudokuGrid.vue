@@ -1,14 +1,7 @@
 <template>
   <div class="sudoku-grid">
     <div class="row" v-for="(row, rowIndex) in matrix" :key="rowIndex">
-      <span
-        class="col"
-        v-for="(col, colIndex) in row"
-        :key="colIndex"
-        ref="refCol"
-        :style="colStyle"
-        >{{ col }}</span
-      >
+      <span class="col" v-for="(col, colIndex) in row" :key="colIndex" ref="refCol" :style="colStyle">{{ col }}</span>
     </div>
   </div>
 </template>
@@ -21,21 +14,21 @@ export default {
   data() {
     return {
       matrix: new Array(9).fill(new Array(9).fill(9)),
-      colStyle: {}
+      colStyle: {},
     };
   },
   mounted() {
     const colHeight = this.$refs.refCol[0].offsetWidth;
     this.colStyle = {
       height: colHeight + "px",
-      lineHeight: colHeight + "px"
+      lineHeight: colHeight + "px",
     };
   },
   created() {
     const gen = Generator.createInstance();
     gen.init();
     this.matrix = gen.matrix;
-  }
+  },
 };
 </script>
 

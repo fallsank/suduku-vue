@@ -1,3 +1,5 @@
+import utils from "../../assets/js/utils";
+
 export default class Generator {
   constructor() {
     this.matrix = [];
@@ -66,8 +68,15 @@ export default class Generator {
   checkSudokuNum(matrix, n, rowIndex, colIndex) {
     const row = matrix[rowIndex];
     const col = matrix.map(row => row[colIndex]);
+    const { boxIndex } = utils.convertPointToBox(rowIndex, colIndex);
+    const boxPoints = utils.queryPointByBox(boxIndex);
+    const box = [];
+    boxPoints.forEach(p => {
+      box.push(matrix[p.rowIndex][p.colIndex]);
+    });
+
     for (let i = 0; i < 9; i++) {
-      if (row[i] === n || col[i] === n) {
+      if (row[i] === n || col[i] === n || box[i] === n) {
         return false;
       }
     }

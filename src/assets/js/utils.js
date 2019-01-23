@@ -2,8 +2,7 @@ export default {
   // 打乱数组算法
   shuffle(arr) {
     for (let index = 0; index < arr.length - 1; index++) {
-      const exchangeIndex =
-        index + Math.floor(Math.random() * (arr.length - index));
+      const exchangeIndex = index + Math.floor(Math.random() * (arr.length - index));
       console.log(index, exchangeIndex);
       [arr[index], arr[exchangeIndex]] = [arr[exchangeIndex], arr[index]];
     }
@@ -19,7 +18,7 @@ export default {
       const point = this.convertBoxToPoint(boxIndex, cellIndex);
       points.push({
         rowIndex: point.rowIndex,
-        colIndex: point.colIndex
+        colIndex: point.colIndex,
       });
     }
     return points;
@@ -33,7 +32,7 @@ export default {
   convertBoxToPoint(boxIndex, cellIndex) {
     return {
       rowIndex: Math.floor(boxIndex / 3) * 3 + Math.floor(cellIndex / 3),
-      colIndex: (boxIndex % 3) * 3 + (cellIndex % 3)
+      colIndex: (boxIndex % 3) * 3 + (cellIndex % 3),
     };
   },
   /**
@@ -45,7 +44,7 @@ export default {
   convertPointToBox(rowIndex, colIndex) {
     return {
       boxIndex: Math.floor(rowIndex / 3) * 3 + Math.floor(colIndex / 3),
-      cellIndex: (rowIndex % 3) * 3 + (colIndex % 3)
+      cellIndex: (rowIndex % 3) * 3 + (colIndex % 3),
     };
-  }
+  },
 };
