@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import Generator from "./common/Generator";
+
 export default {
   name: "sudokuGrid",
   data() {
@@ -29,7 +31,11 @@ export default {
       lineHeight: colHeight + "px"
     };
   },
-  created() {}
+  created() {
+    const gen = Generator.createInstance();
+    gen.init();
+    this.matrix = gen.matrix;
+  }
 };
 </script>
 

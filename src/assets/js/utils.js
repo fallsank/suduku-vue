@@ -10,8 +10,7 @@ export default {
     return arr;
   },
   // 检测输入数字是否合法
-  checkSudokuNum(matrix, n, rowIndex, colIndex) {
-    console.log(matrix, n, rowIndex, colIndex);
+  checkSudokuNum() {
     return true;
   }
 };
