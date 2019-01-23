@@ -1,9 +1,17 @@
 export default {
+  // 创建二位数组
+  createMatrix(v = 0) {
+    const matrix = [];
+    for (let i = 0; i < 9; i++) {
+      const subarr = new Array(9).fill(v);
+      matrix.push(subarr);
+    }
+    return matrix;
+  },
   // 打乱数组算法
   shuffle(arr) {
     for (let index = 0; index < arr.length - 1; index++) {
       const exchangeIndex = index + Math.floor(Math.random() * (arr.length - index));
-      console.log(index, exchangeIndex);
       [arr[index], arr[exchangeIndex]] = [arr[exchangeIndex], arr[index]];
     }
     return arr;

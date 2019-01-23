@@ -2,10 +2,12 @@ import utils from "../../assets/js/utils";
 
 export default class Generator {
   constructor() {
-    this.matrix = [];
+    this.matrix = utils.createMatrix();
+    this.orderMatrix = [];
     for (let i = 0; i < 9; i++) {
-      const subarr = new Array(9).fill(0);
-      this.matrix.push(subarr);
+      let arr = Array.from(new Array(9), (v, i) => i);
+      arr = utils.shuffle(arr);
+      this.orderMatrix.push(arr);
     }
   }
 
@@ -21,8 +23,13 @@ export default class Generator {
   }
 
   init() {
-    while (!this.generate()) {
-      console.warn("生成数据失败，重新生成");
+    // while (!this.generate()) {
+    //   console.warn("生成数据失败，重新生成");
+    // }
+    this.generate();
+    if (this.matrix.map(row => row.map(cell => cell === 0)).length > 0) {
+      console.log("nnnn");
+      this.generate();
     }
   }
 
@@ -46,8 +53,9 @@ export default class Generator {
       return true;
     }
     const currRow = this.matrix[rowIndex];
+    const currOrderRow = this.orderMatrix[rowIndex];
     for (let i = 0; i < currRow.length; i++) {
-      const colIndex = i;
+      const colIndex = currOrderRow[i];
       if (currRow[colIndex]) {
         continue;
       }
