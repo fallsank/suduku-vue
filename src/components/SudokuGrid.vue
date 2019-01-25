@@ -65,8 +65,9 @@ $popnum-cell-height: 0.8rem;
     font-weight: 500;
 
     .row {
+      display: flex;
       .col {
-        display: inline-block;
+        display: block;
         width: 11.1111%;
         box-sizing: border-box;
         text-align: center;
@@ -84,6 +85,9 @@ $popnum-cell-height: 0.8rem;
         &.empty {
           background: #fff;
         }
+      }
+      &::after {
+        clear: both;
       }
     }
   }
