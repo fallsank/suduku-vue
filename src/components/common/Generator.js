@@ -23,14 +23,10 @@ export default class Generator {
   }
 
   init() {
+    this.generate();
     // while (!this.generate()) {
     //   console.warn("生成数据失败，重新生成");
     // }
-    this.generate();
-    if (this.matrix.map(row => row.map(cell => cell === 0)).length > 0) {
-      console.log("nnnn");
-      this.generate();
-    }
   }
 
   generate() {

@@ -3,7 +3,6 @@
     <s-header></s-header>
     <sudoku-grid></sudoku-grid>
     <dashboard></dashboard>
-    <popup-num></popup-num>
   </div>
 </template>
 
@@ -11,15 +10,13 @@
 import SHeader from "./components/SHeader";
 import SudokuGrid from "./components/SudokuGrid";
 import Dashboard from "./components/Dashboard";
-import PopupNum from "./components/PopupNum";
 
 export default {
   name: "app",
   components: {
     SHeader,
     SudokuGrid,
-    Dashboard,
-    PopupNum
+    Dashboard
   }
 };
 </script>
