@@ -1,15 +1,23 @@
 <template>
-  <div class="sudoku-container">
+  <div class="sudoku-container" ref="sudokuContainer">
     <div class="sudoku-grid grid">
       <div class="row" v-for="(row, rowIndex) in matrix" :key="rowIndex">
-        <span class="col" v-for="(col, colIndex) in row" :key="colIndex" ref="refCol" :style="colStyle" @click="showPopupNum">
+        <span
+          class="col"
+          v-for="(col, colIndex) in row"
+          :key="colIndex"
+          ref="refCol"
+          :style="colStyle"
+          @click="showPopupNum(rowIndex, colIndex, $event)"
+          :class="rowIndex === activeCell.rowIndex && colIndex === activeCell.colIndex ? 'actived' : ''"
+        >
           <template v-if="col !== 0">
             {{ col }}
           </template>
         </span>
       </div>
     </div>
-    <popup-num></popup-num>
+    <popup-num v-if="popupNumVisible" :position="popupPosition" ref="popupNum"></popup-num>
   </div>
 </template>
 
@@ -22,7 +30,16 @@ export default {
   data() {
     return {
       matrix: new Array(9).fill(new Array(9).fill(9)),
-      colStyle: {}
+      colStyle: {},
+      popupNumVisible: false,
+      popupPosition: {
+        left: 10,
+        top: 10
+      },
+      activeCell: {
+        rowIndex: -1,
+        colIndex: -1
+      }
     };
   },
   components: {
@@ -41,8 +58,41 @@ export default {
     this.matrix = gen.matrix;
   },
   methods: {
-    showPopupNum(evt) {
-      console.log(evt);
+    // 弹出数字面板
+    showPopupNum(rowIndex, colIndex, evt) {
+      this.popupNumVisible = !this.popupNumVisible;
+
+      if (this.popupNumVisible) {
+        this.activeCell.rowIndex = rowIndex;
+        this.activeCell.colIndex = colIndex;
+        this.$nextTick(() => {
+          this.setPopupNumPosition(evt.path[0]);
+        });
+      } else {
+        this.activeCell = {
+          rowIndex: -1,
+          colIndex: -1
+        };
+      }
+    },
+    // 设置数字面板位置
+    setPopupNumPosition($currCell) {
+      const $popupNumContainer = this.$refs.popupNum.$refs.popupNumContainer;
+      const sudokuWidth = this.$refs.sudokuContainer.clientWidth;
+
+      let left = $currCell.offsetLeft + $currCell.clientWidth / 2;
+      let top = $currCell.offsetTop + $currCell.clientHeight / 2;
+      if ($popupNumContainer.clientWidth + left > sudokuWidth) {
+        this.popupPosition = {
+          top: top,
+          right: sudokuWidth - $currCell.offsetLeft - $currCell.clientWidth / 2
+        };
+      } else {
+        this.popupPosition = {
+          left: left,
+          top: top
+        };
+      }
     }
   }
 };
@@ -55,7 +105,6 @@ $popnum-cell-height: 0.8rem;
 
   /*全局grid样式*/
   .grid {
-    margin-top: 20px;
     padding: 10px;
     color: #000;
     width: 100%;
@@ -68,7 +117,7 @@ $popnum-cell-height: 0.8rem;
       display: flex;
       .col {
         display: block;
-        width: 11.1111%;
+        flex: 1;
         box-sizing: border-box;
         text-align: center;
         background: #fff;
@@ -85,18 +134,18 @@ $popnum-cell-height: 0.8rem;
         &.empty {
           background: #fff;
         }
-      }
-      &::after {
-        clear: both;
+        &.actived {
+          background: #cfe5ec;
+        }
       }
     }
   }
 
   /*数独grid样式*/
   .sudoku-grid {
+    margin-top: 20px;
     .row {
       .col {
-        width: 11.1111%;
         &:first-of-type {
           border-left-width: 2px;
         }
@@ -128,17 +177,17 @@ $popnum-cell-height: 0.8rem;
   }
 
   /*弹出面板grid样式*/
+  $popup-cell-height: 0.8rem;
+
   .popup-num {
     position: absolute;
-    top: 20px;
-    left: 20px;
     width: 3rem;
     padding: 0;
+    z-index: 1;
     .row {
       .col {
-        width: 1rem;
-        height: 0.8rem;
-        line-height: 0.8rem;
+        height: $popup-cell-height;
+        line-height: $popup-cell-height;
         &:first-of-type {
           border-left-width: 1px;
         }
