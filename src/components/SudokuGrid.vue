@@ -1,23 +1,23 @@
 <template>
   <div class="sudoku-container" ref="sudokuContainer">
     <div class="sudoku-grid grid">
-      <div class="row" v-for="(row, rowIndex) in matrix" :key="rowIndex">
+      <div class="row" v-for="(row, rowIndex) in matrix2" :key="rowIndex">
         <span
           class="col"
           v-for="(col, colIndex) in row"
           :key="colIndex"
           ref="refCol"
           :style="colStyle"
-          @click="showPopupNum(rowIndex, colIndex, $event)"
+          @click="showPopupNum(rowIndex, colIndex, col, $event)"
           :class="rowIndex === activeCell.rowIndex && colIndex === activeCell.colIndex ? 'actived' : ''"
         >
-          <template v-if="col !== 0">
-            {{ col }}
+          <template v-if="col.val !== 0">
+            {{ col.val }}
           </template>
         </span>
       </div>
     </div>
-    <popup-num v-if="popupNumVisible" :position="popupPosition" ref="popupNum"></popup-num>
+    <popup-num v-show="popupNumVisible" :position="popupPosition" ref="popupNum" :curr-cell="currCell"></popup-num>
   </div>
 </template>
 
@@ -39,7 +39,8 @@ export default {
       activeCell: {
         rowIndex: -1,
         colIndex: -1
-      }
+      },
+      currCell: null
     };
   },
   components: {
@@ -56,19 +57,29 @@ export default {
     const gen = Generator.createInstance();
     gen.init();
     this.matrix = gen.matrix;
+    this.matrix2 = gen.matrix.map(row =>
+      row.map(col => {
+        return {
+          val: col,
+          status: "empty"
+        };
+      })
+    );
   },
   methods: {
     // 弹出数字面板
-    showPopupNum(rowIndex, colIndex, evt) {
+    showPopupNum(rowIndex, colIndex, col, evt) {
       this.popupNumVisible = !this.popupNumVisible;
 
       if (this.popupNumVisible) {
+        this.currCell = col;
         this.activeCell.rowIndex = rowIndex;
         this.activeCell.colIndex = colIndex;
         this.$nextTick(() => {
           this.setPopupNumPosition(evt.path[0]);
         });
       } else {
+        this.currCell = null;
         this.activeCell = {
           rowIndex: -1,
           colIndex: -1

@@ -10,7 +10,7 @@
       <div class="col doubt" @click="setCell('doubt')"></div>
       <div class="col empty" @click="setCell('empty')"></div>
     </div>
-    <div class="row remove">
+    <div class="row remove" @click="setCell('remove')">
       删除(x)
     </div>
   </div>
@@ -29,6 +29,9 @@ export default {
       },
       required: true,
       type: Object
+    },
+    currCell: {
+      required: true
     }
   },
   computed: {
@@ -54,6 +57,7 @@ export default {
   methods: {
     setCell(val) {
       console.log(val);
+      this.$emit("setGridCell", val);
     }
   }
 };
