@@ -46,9 +46,7 @@ export default {
     }
   },
   data() {
-    return {
-      popupNums: Array.from(new Array(13), (v, k) => k + 1)
-    };
+    return {};
   },
   methods: {
     setCell(val) {

@@ -55,12 +55,30 @@ export default {
   },
   created() {
     this.createSudoku();
+    this.$on("startNewGame", this.startNewGame);
+    this.$on("resetGame", this.resetGame);
   },
   methods: {
-    createSudoku() {
+    // 重新开始游戏
+    startNewGame(level = 5) {
+      this.createSudoku(level);
+    },
+    // 重置游戏数据
+    resetGame() {
+      this.matrix = this.matrix.map(row =>
+        row.map(col => {
+          return {
+            sys: col.sys,
+            val: !col.sys ? 0 : col.val
+          };
+        })
+      );
+      console.log(this.matrix);
+    },
+    createSudoku(level = 5) {
       const gen = Generator.createInstance();
       gen.init();
-      gen.setPuzzleMatrix(5);
+      gen.setPuzzleMatrix(level);
       this.matrix = gen.puzzleMatrix.map(row => row.map(col => ({ val: col, status: "empty", sys: col !== 0 })));
     },
     // 弹出数字面板

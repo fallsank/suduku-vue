@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <s-header></s-header>
-    <sudoku-grid></sudoku-grid>
-    <dashboard></dashboard>
+    <sudoku-grid ref="sudokuGrid"></sudoku-grid>
+    <dashboard @startNewGame="startNewGame" @resetGame="resetGame"></dashboard>
   </div>
 </template>
 
@@ -17,6 +17,14 @@ export default {
     SHeader,
     SudokuGrid,
     Dashboard
+  },
+  methods: {
+    startNewGame() {
+      this.$refs.sudokuGrid.$emit("startNewGame");
+    },
+    resetGame() {
+      this.$refs.sudokuGrid.$emit("resetGame");
+    }
   }
 };
 </script>

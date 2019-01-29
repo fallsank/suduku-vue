@@ -1,14 +1,23 @@
 <template>
   <div class="dashboard-wrapper">
-    <button class="dash-button">
+    <button class="dash-button" @click="startNewGame">
       新游戏
     </button>
-    <button class="dash-button">清空</button>
+    <button class="dash-button" @click="reset">重置</button>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    startNewGame() {
+      this.$emit("startNewGame");
+    },
+    reset() {
+      this.$emit("resetGame");
+    }
+  }
+};
 </script>
 
 <style lang="scss">
