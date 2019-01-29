@@ -17,7 +17,7 @@
         </span>
       </div>
     </div>
-    <popup-num v-show="popupNumVisible" :position="popupPosition" ref="popupNum" :curr-cell="currCell"></popup-num>
+    <popup-num v-show="popupNumVisible" :position="popupPosition" ref="popupNum" :curr-cell="currCell" @hidePopupNum="hidePopupNum"></popup-num>
   </div>
 </template>
 
@@ -104,6 +104,15 @@ export default {
           top: top
         };
       }
+    },
+    // 隐藏选择数字面板
+    hidePopupNum() {
+      this.popupNumVisible = false;
+      this.currCell = null;
+      this.activeCell = {
+        rowIndex: -1,
+        colIndex: -1
+      };
     }
   }
 };

@@ -32,6 +32,9 @@ export default {
     },
     currCell: {
       required: true
+    },
+    visible: {
+      required: true
     }
   },
   computed: {
@@ -56,8 +59,8 @@ export default {
   },
   methods: {
     setCell(val) {
-      console.log(val);
-      this.$emit("setGridCell", val);
+      this.currCell.val = val;
+      this.$emit("hidePopupNum");
     }
   }
 };
