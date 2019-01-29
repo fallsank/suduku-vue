@@ -32,9 +32,6 @@ export default {
     },
     currCell: {
       required: true
-    },
-    visible: {
-      required: true
     }
   },
   computed: {
