@@ -1,7 +1,7 @@
 <template>
   <div class="sudoku-container" ref="sudokuContainer">
     <div class="sudoku-grid grid">
-      <div class="row" v-for="(row, rowIndex) in matrix2" :key="rowIndex">
+      <div class="row" v-for="(row, rowIndex) in matrix" :key="rowIndex">
         <span
           class="col"
           v-for="(col, colIndex) in row"
@@ -30,7 +30,6 @@ export default {
   data() {
     return {
       matrix: [],
-      matrix2: [],
       colStyle: {},
       popupNumVisible: false,
       popupPosition: {
@@ -55,19 +54,15 @@ export default {
     };
   },
   created() {
-    const gen = Generator.createInstance();
-    gen.init();
-    this.matrix = gen.matrix;
-    this.matrix2 = gen.matrix.map(row =>
-      row.map(col => {
-        return {
-          val: col,
-          status: "empty"
-        };
-      })
-    );
+    this.createSudoku();
   },
   methods: {
+    createSudoku() {
+      const gen = Generator.createInstance();
+      gen.init();
+      gen.setPuzzleMatrix(5);
+      this.matrix = gen.puzzleMatrix.map(row => row.map(col => ({ val: col, status: "empty" })));
+    },
     // 弹出数字面板
     showPopupNum(rowIndex, colIndex, col, evt) {
       this.popupNumVisible = !this.popupNumVisible;
