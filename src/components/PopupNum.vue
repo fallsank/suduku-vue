@@ -50,7 +50,10 @@ export default {
   },
   methods: {
     setCell(val) {
-      if (val !== "cancel") this.currCell.val = val;
+      if (val !== "cancel") {
+        this.currCell.val = val;
+        this.$emit("check");
+      }
       this.$emit("hidePopupNum");
     }
   }

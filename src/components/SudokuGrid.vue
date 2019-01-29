@@ -9,7 +9,7 @@
           ref="refCol"
           :style="colStyle"
           @click="showPopupNum(rowIndex, colIndex, col, $event)"
-          :class="{ actived: rowIndex === activeCell.rowIndex && colIndex === activeCell.colIndex, sys: col.sys }"
+          :class="{ actived: rowIndex === activeCell.rowIndex && colIndex === activeCell.colIndex, sys: col.sys, err: !checkMatrix[rowIndex][colIndex] && col.val !== 0 }"
         >
           <template v-if="col.val !== 0">
             {{ col.val }}
@@ -17,13 +17,15 @@
         </span>
       </div>
     </div>
-    <popup-num v-show="popupNumVisible" :position="popupPosition" ref="popupNum" :curr-cell="currCell" @hidePopupNum="hidePopupNum"></popup-num>
+    <popup-num v-show="popupNumVisible" :position="popupPosition" ref="popupNum" :curr-cell="currCell" @hidePopupNum="hidePopupNum" @check="check"></popup-num>
   </div>
 </template>
 
 <script>
 import Generator from "./common/Generator";
 import PopupNum from "./PopupNum";
+import utils from "../assets/js/utils";
+import Checker from "./common/checker";
 
 export default {
   name: "sudokuGrid",
@@ -40,7 +42,8 @@ export default {
         rowIndex: -1,
         colIndex: -1
       },
-      currCell: null
+      currCell: null,
+      checkMatrix: utils.createMatrix(true)
     };
   },
   components: {
@@ -73,13 +76,14 @@ export default {
           };
         })
       );
+      this.checkMatrix = utils.createMatrix(true);
       console.log(this.matrix);
     },
     createSudoku(level = 5) {
       const gen = Generator.createInstance();
       gen.init();
       gen.setPuzzleMatrix(level);
-      this.matrix = gen.puzzleMatrix.map(row => row.map(col => ({ val: col, status: "empty", sys: col !== 0 })));
+      this.matrix = gen.puzzleMatrix.map(row => row.map(col => ({ val: col, status: "empty", sys: col !== 0, checked: col !== 0 ? true : false })));
     },
     // 弹出数字面板
     showPopupNum(rowIndex, colIndex, col, evt) {
@@ -129,6 +133,12 @@ export default {
         rowIndex: -1,
         colIndex: -1
       };
+    },
+    // 检查数独是否填写正确
+    check() {
+      const checker = new Checker(this.matrix.map(row => row.map(col => col.val)));
+      checker.check();
+      this.checkMatrix = checker.checkMatrix;
     }
   }
 };
@@ -163,18 +173,18 @@ $popnum-cell-height: 0.8rem;
 
         &.sys {
           background: #f5f5f5;
-        }
-        &.confirm {
-          background: lightgreen;
-        }
-        &.doubt {
-          background: lightpink;
+          &.err {
+            background: #dcc8c5;
+          }
         }
         &.empty {
           background: #fff;
         }
         &.actived {
           background: #cfe5ec;
+        }
+        &.err {
+          background: #ff8787;
         }
       }
     }
