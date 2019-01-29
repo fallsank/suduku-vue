@@ -72,7 +72,8 @@ export default {
         this.activeCell.rowIndex = rowIndex;
         this.activeCell.colIndex = colIndex;
         this.$nextTick(() => {
-          this.setPopupNumPosition(evt.path[0]);
+          console.log(evt);
+          this.setPopupNumPosition(evt.target);
         });
       } else {
         this.currCell = null;
@@ -89,6 +90,7 @@ export default {
 
       let left = $currCell.offsetLeft + $currCell.clientWidth / 2;
       let top = $currCell.offsetTop + $currCell.clientHeight / 2;
+
       if ($popupNumContainer.clientWidth + left > sudokuWidth) {
         this.popupPosition = {
           top: top,

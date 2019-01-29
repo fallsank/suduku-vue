@@ -11,6 +11,15 @@
 <body>
   <noscript>还不支持JS？您放弃吧！！！</noscript>
   <div id="app"></div>
+  <script>
+    (function () {
+      // url参数 m=dbug 调试模式
+      var script = document.createElement('script')
+      script.src = '//cdn.jsdelivr.net/npm/eruda'
+      document.body.appendChild(script)
+      script.onload = () => eruda.init()
+    })()
+  </script>
 </body>
 
 </html>
