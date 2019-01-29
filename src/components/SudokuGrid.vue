@@ -9,7 +9,7 @@
           ref="refCol"
           :style="colStyle"
           @click="showPopupNum(rowIndex, colIndex, col, $event)"
-          :class="rowIndex === activeCell.rowIndex && colIndex === activeCell.colIndex ? 'actived' : ''"
+          :class="{ actived: rowIndex === activeCell.rowIndex && colIndex === activeCell.colIndex, sys: col.sys }"
         >
           <template v-if="col.val !== 0">
             {{ col.val }}
@@ -61,10 +61,14 @@ export default {
       const gen = Generator.createInstance();
       gen.init();
       gen.setPuzzleMatrix(5);
-      this.matrix = gen.puzzleMatrix.map(row => row.map(col => ({ val: col, status: "empty" })));
+      this.matrix = gen.puzzleMatrix.map(row => row.map(col => ({ val: col, status: "empty", sys: col !== 0 })));
     },
     // 弹出数字面板
     showPopupNum(rowIndex, colIndex, col, evt) {
+      if (col.sys) {
+        this.hidePopupNum();
+        return;
+      }
       this.popupNumVisible = !this.popupNumVisible;
 
       if (this.popupNumVisible) {
@@ -76,11 +80,7 @@ export default {
           this.setPopupNumPosition(evt.target);
         });
       } else {
-        this.currCell = null;
-        this.activeCell = {
-          rowIndex: -1,
-          colIndex: -1
-        };
+        this.hidePopupNum();
       }
     },
     // 设置数字面板位置
@@ -143,6 +143,9 @@ $popnum-cell-height: 0.8rem;
         border-right-width: 0;
         border-bottom-width: 0;
 
+        &.sys {
+          background: #f5f5f5;
+        }
         &.confirm {
           background: lightgreen;
         }

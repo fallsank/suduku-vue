@@ -6,12 +6,8 @@
       </div>
     </div>
     <div class="row">
-      <div class="col confirm" @click="setCell('confirm')"></div>
-      <div class="col doubt" @click="setCell('doubt')"></div>
-      <div class="col empty" @click="setCell('empty')"></div>
-    </div>
-    <div class="row remove" @click="setCell('remove')">
-      删除(x)
+      <div class="col" @click="setCell('cancel')">取消</div>
+      <div class="col" @click="setCell(0)">删除</div>
     </div>
   </div>
 </template>
@@ -56,7 +52,7 @@ export default {
   },
   methods: {
     setCell(val) {
-      this.currCell.val = val;
+      if (val !== "cancel") this.currCell.val = val;
       this.$emit("hidePopupNum");
     }
   }
