@@ -23,13 +23,21 @@ export default class Generator {
   }
 
   init() {
-    this.generate();
-    // while (!this.generate()) {
-    //   console.warn("生成数据失败，重新生成");
-    // }
+    while (!this.generate()) {
+      console.warn("生成失败");
+    }
   }
 
   generate() {
+    /*-------------重新生成二维数组-----------------------------*/
+    this.matrix = utils.createMatrix();
+    this.orderMatrix = [];
+    for (let i = 0; i < 9; i++) {
+      let arr = Array.from(new Array(9), (v, i) => i);
+      arr = utils.shuffle(arr);
+      this.orderMatrix.push(arr);
+    }
+    /*----------------------------------------------*/
     for (let n = 1; n <= 9; n++) {
       if (!this.fillNum(n)) {
         return false;

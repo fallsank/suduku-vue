@@ -29,7 +29,8 @@ export default {
   name: "sudokuGrid",
   data() {
     return {
-      matrix: new Array(9).fill(new Array(9).fill(9)),
+      matrix: [],
+      matrix2: [],
       colStyle: {},
       popupNumVisible: false,
       popupPosition: {
