@@ -18,6 +18,9 @@
       </div>
     </div>
     <popup-num v-show="popupNumVisible" :position="popupPosition" ref="popupNum" :curr-cell="currCell" @hidePopupNum="hidePopupNum" @check="check"></popup-num>
+    <div class="message-wrapper">
+      <div v-if="isSuccess" class="tip">您已通关!!!</div>
+    </div>
   </div>
 </template>
 
@@ -43,7 +46,8 @@ export default {
         colIndex: -1
       },
       currCell: null,
-      checkMatrix: utils.createMatrix(true)
+      checkMatrix: utils.createMatrix(true),
+      isSuccess: false
     };
   },
   components: {
@@ -63,11 +67,14 @@ export default {
   },
   methods: {
     // 重新开始游戏
-    startNewGame(level = 5) {
+    startNewGame(level = 1) {
+      this.isSuccess = false;
+      this.checkMatrix = utils.createMatrix(true);
       this.createSudoku(level);
     },
     // 重置游戏数据
     resetGame() {
+      this.isSuccess = false;
       this.matrix = this.matrix.map(row =>
         row.map(col => {
           return {
@@ -77,18 +84,28 @@ export default {
         })
       );
       this.checkMatrix = utils.createMatrix(true);
-      console.log(this.matrix);
     },
     createSudoku(level = 5) {
       const gen = Generator.createInstance();
       gen.init();
+      console.log(gen.matrix);
       gen.setPuzzleMatrix(level);
-      this.matrix = gen.puzzleMatrix.map(row => row.map(col => ({ val: col, status: "empty", sys: col !== 0, checked: col !== 0 ? true : false })));
+      this.matrix = gen.puzzleMatrix.map(row =>
+        row.map(col => ({
+          val: col,
+          status: "empty",
+          sys: col !== 0,
+          checked: col !== 0 ? true : false
+        }))
+      );
     },
     // 弹出数字面板
     showPopupNum(rowIndex, colIndex, col, evt) {
       if (col.sys) {
         this.hidePopupNum();
+        return;
+      }
+      if (this.isSuccess) {
         return;
       }
       this.popupNumVisible = !this.popupNumVisible;
@@ -98,7 +115,6 @@ export default {
         this.activeCell.rowIndex = rowIndex;
         this.activeCell.colIndex = colIndex;
         this.$nextTick(() => {
-          console.log(evt);
           this.setPopupNumPosition(evt.target);
         });
       } else {
@@ -139,6 +155,7 @@ export default {
       const checker = new Checker(this.matrix.map(row => row.map(col => col.val)));
       checker.check();
       this.checkMatrix = checker.checkMatrix;
+      this.isSuccess = checker.checkResult;
     }
   }
 };
@@ -254,6 +271,14 @@ $popnum-cell-height: 0.8rem;
           border-bottom-width: 1px;
         }
       }
+    }
+  }
+
+  .message-wrapper {
+    padding: 10px 20px;
+    .tip {
+      color: lightcoral;
+      font-weight: 500;
     }
   }
 }
