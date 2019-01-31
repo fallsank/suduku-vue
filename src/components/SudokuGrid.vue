@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     // 重新开始游戏
-    startNewGame(level = 1) {
+    startNewGame(level = 5) {
       this.isSuccess = false;
       this.checkMatrix = utils.createMatrix(true);
       this.createSudoku(level);
